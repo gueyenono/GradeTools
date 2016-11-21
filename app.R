@@ -9,7 +9,7 @@ ui <- fluidPage(
   
   useShinyjs(),
   
-  headerPanel("Calculate grade app!"),
+  headerPanel("Wanna know your grade?"),
   
   sidebarPanel(
     
