@@ -14,7 +14,7 @@ ui <- fluidPage(
   sidebarPanel(
     
     # Select evaluation types
-    checkboxGroupInput(inputId = "evals", label = "Select evaluation types", choices = c("Homework", "Exam", "Quiz", "Final")),
+    uiOutput(outputId = "dynout_evals"),
     
     tags$hr(), # Horizontal line
     
@@ -49,7 +49,10 @@ server <- function(input, output, session){
   evalabbs <- c("Homework" = "hw", "Exam" = "ex", "Quiz" = "qz", "Final" = "fn")
   wt_react <- reactiveValues()
   
-  # Evaluations selected by user
+  # Dynamically create checkboxGroupInput for the evaluations'types
+  output$dynout_evals <- renderUI({
+    checkboxGroupInput(inputId = "evals", label = "Select evaluation types", choices = evals)
+  })
   
   # Numeric and slider inputs for number of evaluations and weights (hidden)
   output$dynout1 <- renderUI({
@@ -145,12 +148,13 @@ server <- function(input, output, session){
       a <- Reduce(f = "+", x = pct_list)
       b <- Reduce(f = "+", x = reactiveValuesToList(wt_react)) / 100
       c <- round(a/b, 2)
+      w <- Reduce(f = "+", x = reactiveValuesToList(wt_react))
       
       d <- lapply(input$evals, function(i){
         HTML(paste0(i, ": "), pct_list[[i]], " /", wt_react[[i]], "<br/>")
       })
       
-      list(d, HTML(paste0("Total grade: "), paste0(c))) %>% tagList
+      list(d, HTML("Total weights: ", paste0(w), "%", "<br/>", "<br/>", "Total grade: ", paste0(c))) %>% tagList
       
     })
   })
