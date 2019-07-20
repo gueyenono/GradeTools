@@ -1,5 +1,10 @@
-shinyServer(
-  function(input, output, session){
+shinyServer(function(input, output, session){
+    
+    assessments <- callModule(module = assessment_types_module, id = "assessment_types")
+    
+    callModule(module = counts_and_weights_module, id = "counts-and-weights", assessments = assessments)
+    
+    observe({ print(assessments()) })
     
     # evals <- c("Homework", "Exam", "Quiz", "Final")
     # evalabbs <- c("Homework" = "hw", "Exam" = "ex", "Quiz" = "qz", "Final" = "fn")
@@ -114,5 +119,4 @@ shinyServer(
     #     
     #   })
     # })
-  }
-)
+  })
