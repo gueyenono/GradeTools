@@ -2,9 +2,7 @@ assessment_types_module_ui <- function(id){
   
   ns <- NS(id)
   
-  box(
-    
-    title = "Assessment types", solidHeader = TRUE, status = "primary",
+  tagList(
     
     p("Select the assessment types in your course. You can enter types, which are not available in the dropdown list."),
     
@@ -29,8 +27,25 @@ assessment_types_module <- function(input, output, session){
     input$assessments
   })
   
-  return(
-    assessment_types
-  )
+  observeEvent(input$submit, {
+    
+    if(length(assessment_types()) == 0){
+      
+      shinyalert(
+        title = "Warning!",
+        text = "You need to choose at least one assessment type.",
+        type = "warning",
+        closeOnEsc = TRUE,
+        closeOnClickOutside = TRUE,
+        showConfirmButton = TRUE,
+        animation = "slide-from-top"
+      )
+      
+    }
+    
+  })
+  
+  
+  return(assessment_types)
   
 }
