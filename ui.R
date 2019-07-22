@@ -2,15 +2,19 @@ library(shiny)
 library(shinydashboard)
 library(shinyjs)
 library(shinyalert)
+library(shinyWidgets)
 library(magrittr)
 library(purrr)
 library(rhandsontable)
 library(data.table)
 library(dplyr)
+library(tidyr)
+library(ggplot2)
 source("R/helper_functions.R")
 source("R/assessment-types-module.R")
 source("R/counts-and-weigths-module.R")
 source("R/scores-module.R")
+source("R/overall-performance-percentages-module.R")
 
 dashboardPage(
   
@@ -46,6 +50,23 @@ dashboardPage(
         title = "Scores", solidHeader = TRUE, status = "primary", width = 4,
         scores_module_ui(id = "scores")
       )
+    ),
+    
+    fluidRow(
+      
+      box(
+        title = "Performance by Assessment Type", solidHeader = TRUE, status = "primary", width = 4,
+        performance_percentages_module_ui(id = "performance-weights")
+      ),
+      
+      box(
+        title = "Overall Performance (Percentages)", solidHeader = TRUE, status = "primary", width = 4
+      ),
+      
+      box(
+        title = "Total Grade", solidHeader = TRUE, status = "primary", width = 4
+      )
+      
     )
   )
 )

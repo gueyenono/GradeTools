@@ -62,7 +62,7 @@ counts_and_weights_module <- function(input, output, session, assessments){
       
       shinyalert(
         title = "Warning!",
-        text = "You have not provided all the necessary \"Counts and Weights\" information.",
+        text = "You have not provided all the necessary \"Counts and Weights\" values.",
         type = "warning",
         closeOnEsc = TRUE,
         closeOnClickOutside = TRUE,
