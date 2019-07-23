@@ -18,6 +18,8 @@ scores_module_ui <- function(id){
 
 scores_module <- function(input, output, session, counts_and_weights){
   
+  react <- reactiveValues(complete = FALSE)
+  
   # Initial display
   
   # >> Determine the position of read-only cells
@@ -40,8 +42,6 @@ scores_module <- function(input, output, session, counts_and_weights){
   # >> Display
   
   output$scores <- renderRHandsontable({
-    
-    req(counts_and_weights())
     
     max_count <- max(counts_and_weights()$Counts, na.rm = TRUE)
     
@@ -81,9 +81,10 @@ scores_module <- function(input, output, session, counts_and_weights){
   
   observeEvent(input$submit, {
     
-    req(missing_input())
-    
     if(missing_input()){
+      
+      react$complete <- FALSE
+      
       shinyalert(
         title = "Warning!",
         text = "You have not provided all the necessary \"Scores\" values.",
@@ -93,10 +94,17 @@ scores_module <- function(input, output, session, counts_and_weights){
         showConfirmButton = TRUE,
         animation = "slide-from-top"
       )
+      
+    } else {
+      react$complete <- TRUE
     }
   })
 
   
-  return(user_inputs)
+  return(list(
+    return_value = user_inputs,
+    complete = reactive({ react }),
+    click = reactive({ input$submit })
+  ))
   
 }

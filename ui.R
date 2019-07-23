@@ -19,7 +19,7 @@ source("R/performance-by-assessment-valuebox-module.R")
 source("R/total-grade-module.R")
 
 
-dashboardPage(
+shinyUI(dashboardPage(
   
   dashboardHeader(title = "gradetools"),
   
@@ -33,39 +33,47 @@ dashboardPage(
     fluidRow(
       
       box(
-        title = "Assessment types", solidHeader = TRUE, status = "primary", width = 4,
+        id = "box1", title = "Assessment types", solidHeader = TRUE, status = "primary", width = 4,
         assessment_types_module_ui(id = "assessment_types")
       ),
       
-      box(
-        title = "Counts and Weights", solidHeader = TRUE, status = "primary", width = 4,
-        counts_and_weights_module_ui(id = "counts-and-weights")
+      shinyjs::hidden(div(id = "box2",
+                          box(
+                            title = "Counts and Weights", solidHeader = TRUE, status = "primary", width = 4,
+                            counts_and_weights_module_ui(id = "counts-and-weights")
+                          ))
       ),
       
-      box(
-        title = "Scores", solidHeader = TRUE, status = "primary", width = 4,
-        scores_module_ui(id = "scores")
-      )
+      shinyjs::hidden(div(id = "box3",
+                          box(
+                            title = "Scores", solidHeader = TRUE, status = "primary", width = 4,
+                            scores_module_ui(id = "scores")
+                          )
+      ))
     ),
     
     fluidRow(
       
-      box(
-        title = "Evolution of Scores", solidHeader = TRUE, status = "primary", width = 4,
-        scores_evolution_module_ui(id = "scores-evolution")
-      ),
-      
-      box(
-        title = "Performance by Assessment Type", solidHeader = TRUE, status = "primary", width = 4,
-        performance_by_assessment_valuebox_module_ui(id = "performance-weights")
-      ),
-      
-      box(
-        title = "Overall Performance", solidHeader = TRUE, status = "primary", width = 4,
-        total_grade_module_ui(id = "total-grade")
+      shinyjs::hidden(div(id = "box4",
+                          box(
+                            title = "Evolution of Scores", solidHeader = TRUE, status = "primary", width = 4,
+                            scores_evolution_module_ui(id = "scores-evolution")
+                          ),
+                          
+                          box(
+                            title = "Performance by Assessment Type", solidHeader = TRUE, status = "primary", width = 4,
+                            performance_by_assessment_valuebox_module_ui(id = "performance-by-assessment")
+                          ),
+                          
+                          box(
+                            title = "Overall Performance", solidHeader = TRUE, status = "primary", width = 4,
+                            total_grade_module_ui(id = "total-grade")
+                          )
+                      )
       )
     )
-  )
+  ))
 )
-
-
+  
+  
+  

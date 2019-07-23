@@ -18,27 +18,19 @@ counts_and_weights_module_ui <- function(id){
 
 counts_and_weights_module <- function(input, output, session, assessments){
   
+  react <- reactiveValues(complete = FALSE)
+  
   output$counts_and_weights <- renderRHandsontable({
     
-    if(length(assessments()) != 0){
-      
-      dat <- data.table(
-        "Assessment Types" = stringr::str_to_title(assessments()),
-        "Counts" = NA_integer_,
-        "Weights" = NA_real_
-      ) %>%
-        rhandsontable(rowHeaders = NULL) %>%
-        hot_col(col = 1, readOnly = TRUE) %>%
-        hot_table(stretchH = "all")
-      
-    } else {
-      
-      dat <- NULL
-      
-    }
+    data.table(
+      "Assessment Types" = stringr::str_to_title(assessments()),
+      "Counts" = NA_integer_,
+      "Weights" = NA_real_
+    ) %>%
+      rhandsontable(rowHeaders = NULL) %>%
+      hot_col(col = 1, readOnly = TRUE) %>%
+      hot_table(stretchH = "all")
     
-    return(dat)
-
   })
   
   
@@ -60,6 +52,8 @@ counts_and_weights_module <- function(input, output, session, assessments){
     
     if(is.null(user_inputs())){
       
+      react$complete <- FALSE
+      
       shinyalert(
         title = "Warning!",
         text = "You have not provided all the necessary \"Counts and Weights\" values.",
@@ -70,10 +64,16 @@ counts_and_weights_module <- function(input, output, session, assessments){
         animation = "slide-from-top"
       )
       
+    } else {
+      react$complete <- TRUE
     }
     
   })
   
-  return(user_inputs)
+  return(list(
+    return_value = user_inputs,
+    complete = reactive({ react }),
+    click = reactive({ input$submit })
+  ))
   
 }
