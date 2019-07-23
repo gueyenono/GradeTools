@@ -14,20 +14,16 @@ source("R/helper_functions.R")
 source("R/assessment-types-module.R")
 source("R/counts-and-weigths-module.R")
 source("R/scores-module.R")
-source("R/overall-performance-percentages-module.R")
+source("R/scores-evolution-module.R")
+source("R/performance-by-assessment-valuebox-module.R")
+source("R/total-grade-module.R")
+
 
 dashboardPage(
   
   dashboardHeader(title = "gradetools"),
   
-  dashboardSidebar(
-    
-    # sidebarMenu(
-    #   menuItem(text = "Assessment types", icon = icon("book-open")),
-    #   menuItem(text = "Weights", icon = icon("weight"))
-    # )
-    
-  ),
+  dashboardSidebar(),
   
   dashboardBody(
     
@@ -55,18 +51,21 @@ dashboardPage(
     fluidRow(
       
       box(
+        title = "Evolution of Scores", solidHeader = TRUE, status = "primary", width = 4,
+        scores_evolution_module_ui(id = "scores-evolution")
+      ),
+      
+      box(
         title = "Performance by Assessment Type", solidHeader = TRUE, status = "primary", width = 4,
-        performance_percentages_module_ui(id = "performance-weights")
+        performance_by_assessment_valuebox_module_ui(id = "performance-weights")
       ),
       
       box(
-        title = "Overall Performance (Percentages)", solidHeader = TRUE, status = "primary", width = 4
-      ),
-      
-      box(
-        title = "Total Grade", solidHeader = TRUE, status = "primary", width = 4
+        title = "Overall Performance", solidHeader = TRUE, status = "primary", width = 4,
+        total_grade_module_ui(id = "total-grade")
       )
-      
     )
   )
 )
+
+

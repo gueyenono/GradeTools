@@ -1,4 +1,4 @@
-performance_percentages_module_ui <- function(id){
+performance_by_assessment_valuebox_module_ui <- function(id){
   
   ns <- NS(id)
   
@@ -7,7 +7,7 @@ performance_percentages_module_ui <- function(id){
 }
 
 
-performance_percentages_module <- function(input, output, session, counts_and_weights, scores){
+performance_by_assessment_valuebox_module <- function(input, output, session, counts_and_weights, scores){
   
   tidy_performance <- reactive({
     gather(scores(), key = "Assessment Types", value = "Scores") %>%
@@ -15,7 +15,7 @@ performance_percentages_module <- function(input, output, session, counts_and_we
       filter(!is.na(Scores)) %>%
       group_by(`Assessment Types`) %>%
       summarize_at(.vars = vars(Scores, Counts, Weights), .funs = mean) %>%
-      mutate(`Weighted Average` = (Scores * (Weights / 100)) / (sum(Weights) / 100)) %>%
+      mutate(`Weighted Average` = (Scores * (Weights / 100))) %>%
       rename(`Percentage Average` = Scores)
   })
   
@@ -31,6 +31,8 @@ performance_percentages_module <- function(input, output, session, counts_and_we
               percentage = tidy_performance()$`Percentage Average`),
          
          function(assessment_type, percentage){
+           
+           percentage <- round(percentage, 2)
            
            color <- case_when(
              percentage >= 90                   ~ "green",
@@ -56,7 +58,9 @@ performance_percentages_module <- function(input, output, session, counts_and_we
            )
          }) %>%
       tagList()
-
+    
   })
+  
+  return(tidy_performance)
   
 }
