@@ -8,6 +8,8 @@ shinyServer(function(input, output, session){
         
         if(!assessments$missing_input()){
             shinyjs::show(id = "box2", anim = TRUE, animType = "fade")
+            shinyjs::hide(id = "box3", anim = TRUE, animType = "fade")
+            shinyjs::hide(id = "box4", anim = TRUE, animType = "fade")
         } else {
             shinyjs::hide(id = "box2", anim = TRUE, animType = "fade")
             shinyjs::hide(id = "box3", anim = TRUE, animType = "fade")
@@ -23,6 +25,7 @@ shinyServer(function(input, output, session){
         
         if(!assessments$missing_input() & !counts_and_weights$missing_input()){
             shinyjs::show(id = "box3", anim = TRUE, animType = "fade")
+            shinyjs::hide(id = "box4", anim = TRUE, animType = "fade")
         } else {
             shinyjs::hide(id = "box3", anim = TRUE, animType = "fade")
             shinyjs::hide(id = "box4", anim = TRUE, animType = "fade")

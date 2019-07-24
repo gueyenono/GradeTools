@@ -20,14 +20,18 @@ counts_and_weights_module <- function(input, output, session, assessments){
   
   output$counts_and_weights <- renderRHandsontable({
     
-    data.table(
-      "Assessment Types" = stringr::str_to_title(assessments()),
-      "Counts" = NA_integer_,
-      "Weights" = NA_real_
-    ) %>%
-      rhandsontable(rowHeaders = NULL) %>%
-      hot_col(col = 1, readOnly = TRUE) %>%
-      hot_table(stretchH = "all")
+    if(length(assessments()) == 0){
+      out <- NULL
+    } else {
+      out <- data.table(
+        "Assessment Types" = stringr::str_to_title(assessments()),
+        "Counts" = NA_integer_,
+        "Weights" = NA_real_
+      ) %>%
+        rhandsontable(rowHeaders = NULL) %>%
+        hot_col(col = 1, readOnly = TRUE) %>%
+        hot_table(stretchH = "all")
+    }
     
   })
   
