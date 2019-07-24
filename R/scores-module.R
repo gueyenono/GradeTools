@@ -55,7 +55,7 @@ scores_module <- function(input, output, session, counts_and_weights){
   })
   
   
-  # Determines if user failed to enter a required input
+  # Determines if user failed to enter a required inputs
   
   missing_input <- eventReactive(input$submit, {
     

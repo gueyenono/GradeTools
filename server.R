@@ -10,6 +10,8 @@ shinyServer(function(input, output, session){
             shinyjs::show(id = "box2", anim = TRUE, animType = "fade")
         } else {
             shinyjs::hide(id = "box2", anim = TRUE, animType = "fade")
+            shinyjs::hide(id = "box3", anim = TRUE, animType = "fade")
+            shinyjs::hide(id = "box4", anim = TRUE, animType = "fade")
         }
     })
     
@@ -25,11 +27,11 @@ shinyServer(function(input, output, session){
             shinyjs::show(id = "box3", anim = TRUE, animType = "fade")
         } else {
             shinyjs::hide(id = "box3", anim = TRUE, animType = "fade")
+            shinyjs::hide(id = "box4", anim = TRUE, animType = "fade")
         }
         
     })
     
-    # observeEvent(counts_and_weights)
     
     # User enters scores
     
