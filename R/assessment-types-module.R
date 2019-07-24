@@ -47,11 +47,7 @@ assessment_types_module <- function(input, output, session){
       
       shinyjs::enable(id = "submit")
       
-    } else {
-      
-      shinyjs::disable(id = "submit")
-      
-    }
+    } 
   })
   
   return(list(

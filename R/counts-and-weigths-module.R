@@ -57,8 +57,6 @@ counts_and_weights_module <- function(input, output, session, assessments){
     
     if(is.null(user_inputs())){
       
-      react$complete <- FALSE
-      
       shinyalert(
         title = "Warning!",
         text = "You have not provided all the necessary \"Counts and Weights\" values.",
@@ -71,11 +69,7 @@ counts_and_weights_module <- function(input, output, session, assessments){
       
       shinyjs::enable(id = "submit")
       
-    } else {
-      
-      shinyjs::disable(id = "submit")
-      
-    }
+    } 
   })
   
   return(list(

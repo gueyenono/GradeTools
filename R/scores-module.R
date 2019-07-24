@@ -44,15 +44,21 @@ scores_module <- function(input, output, session, counts_and_weights){
     
     isolate(counts_and_weights())
     
-    max_count <- max(counts_and_weights()$Counts, na.rm = TRUE)
+    if(is.null(counts_and_weights())){
+      out <- NULL
+    } else {
+      max_count <- max(counts_and_weights()$Counts, na.rm = TRUE)
+      
+      out <- rerun(nrow(counts_and_weights()), rep(NA_real_, max_count)) %>%
+        as.data.table() %>%
+        setNames(counts_and_weights()$`Assessment Types`) %>%
+        rhandsontable() %>%
+        hot_table(stretchH = "all") %>%
+        make_read_only_cells(read_only_cells = read_only_cells())
+    }
     
-    rerun(nrow(counts_and_weights()), rep(NA_real_, max_count)) %>%
-      as.data.table() %>%
-      setNames(counts_and_weights()$`Assessment Types`) %>%
-      rhandsontable() %>%
-      hot_table(stretchH = "all") %>%
-      make_read_only_cells(read_only_cells = read_only_cells())
-    
+    return(out)
+
   })
   
   
@@ -60,7 +66,7 @@ scores_module <- function(input, output, session, counts_and_weights){
   
   missing_input <- eventReactive(input$submit, {
     
-    map2(as.list(hot_to_r(input$scores)), as.list(counts_and_weights()$Counts),
+    map2_lgl(as.list(hot_to_r(input$scores)), as.list(counts_and_weights()$Counts),
          ~ ifelse(sum(!is.na(.x)) == .y, FALSE, TRUE)) %>%
       any()
     
@@ -96,11 +102,7 @@ scores_module <- function(input, output, session, counts_and_weights){
       
       shinyjs::enable(id = "submit")
       
-    } else {
-      
-      shinyjs::disable(id = "submit")
-      
-    }
+    } 
   })
 
   
