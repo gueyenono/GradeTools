@@ -6,7 +6,7 @@ shinyServer(function(input, output, session){
     
     observeEvent(assessments$click(), {
         
-        if(assessments$complete()$complete){
+        if(!assessments$missing_input()){
             shinyjs::show(id = "box2", anim = TRUE, animType = "fade")
         } else {
             shinyjs::hide(id = "box2", anim = TRUE, animType = "fade")
@@ -21,9 +21,7 @@ shinyServer(function(input, output, session){
     
     observeEvent(counts_and_weights$click(), {
         
-        print(counts_and_weights$complete()$complete)
-        
-        if(counts_and_weights$complete()$complete){
+        if(!assessments$missing_input() & !counts_and_weights$missing_input()){
             shinyjs::show(id = "box3", anim = TRUE, animType = "fade")
         } else {
             shinyjs::hide(id = "box3", anim = TRUE, animType = "fade")
@@ -39,9 +37,7 @@ shinyServer(function(input, output, session){
     
     observeEvent(scores$click(), {
         
-        print(scores$complete()$complete)
-        
-        if(scores$complete()$complete){
+        if(!assessments$missing_input() & !counts_and_weights$missing_input() & !scores$missing_input()){
             shinyjs::show(id = "box4", anim = TRUE, animType = "fade")
         } else {
             shinyjs::hide(id = "box4", anim = TRUE, animType = "fade")

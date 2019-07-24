@@ -18,8 +18,6 @@ counts_and_weights_module_ui <- function(id){
 
 counts_and_weights_module <- function(input, output, session, assessments){
   
-  react <- reactiveValues(complete = FALSE)
-  
   output$counts_and_weights <- renderRHandsontable({
     
     data.table(
@@ -30,6 +28,13 @@ counts_and_weights_module <- function(input, output, session, assessments){
       rhandsontable(rowHeaders = NULL) %>%
       hot_col(col = 1, readOnly = TRUE) %>%
       hot_table(stretchH = "all")
+    
+  })
+  
+  missing_input <- eventReactive(input$submit, {
+    
+    map_lgl(as.list(hot_to_r(input$counts_and_weights)), ~ any(is.na(.x))) %>%
+      any()
     
   })
   
@@ -64,16 +69,19 @@ counts_and_weights_module <- function(input, output, session, assessments){
         animation = "slide-from-top"
       )
       
+      shinyjs::enable(id = "submit")
+      
     } else {
-      react$complete <- TRUE
+      
+      shinyjs::disable(id = "submit")
+      
     }
-    
   })
   
   return(list(
     return_value = user_inputs,
-    complete = reactive({ react }),
-    click = reactive({ input$submit })
+    click = reactive({ input$submit }),
+    missing_input = missing_input
   ))
   
 }

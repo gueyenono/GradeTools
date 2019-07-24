@@ -23,13 +23,17 @@ assessment_types_module_ui <- function(id){
 
 assessment_types_module <- function(input, output, session){
   
-  react <- reactiveValues(complete = FALSE)
+  assessment_types <- eventReactive(input$submit, {
+    input$assessments
+  })
+  
+  missing_input <- eventReactive(input$submit, {
+    length(assessment_types()) == 0
+  })
   
   observeEvent(input$submit, {
     
-    if(length(assessment_types()) == 0){
-      
-      react$complete <- FALSE
+    if(missing_input()){
       
       shinyalert(
         title = "Warning!",
@@ -41,21 +45,19 @@ assessment_types_module <- function(input, output, session){
         animation = "slide-from-top"
       )
       
+      shinyjs::enable(id = "submit")
+      
     } else {
-      react$complete <- TRUE
+      
+      shinyjs::disable(id = "submit")
+      
     }
-    
   })
-  
-  assessment_types <- eventReactive(input$submit, {
-    input$assessments
-  })
-  
   
   return(list(
     return_value = assessment_types,
-    complete = reactive({ react }),
-    click = reactive({ input$submit })
+    click = reactive({ input$submit }),
+    missing_input = missing_input
   ))
   
 }

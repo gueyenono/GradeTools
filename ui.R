@@ -21,7 +21,7 @@ source("R/total-grade-module.R")
 
 shinyUI(dashboardPage(
   
-  dashboardHeader(title = "gradetools"),
+  dashboardHeader(title = "gradetools v. 0.1"),
   
   dashboardSidebar(),
   
