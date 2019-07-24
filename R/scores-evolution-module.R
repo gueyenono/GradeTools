@@ -21,7 +21,9 @@ scores_evolution_module <- function(input, output, session, scores){
     ggplot(data = tidy_scores(), aes(x = Assessment, y = Scores)) +
       geom_col() +
       theme_bw() +
-      facet_wrap(~ `Assessment Types`)
+      facet_wrap(~ `Assessment Types`) +
+      scale_y_continuous(breaks = seq(from = 0, to = 100, by = 10),
+                         labels = seq(from = 0, to = 100, by = 10))
     
   })
   
