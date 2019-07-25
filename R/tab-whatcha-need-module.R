@@ -13,19 +13,19 @@ tab_whatcha_need_module_ui <- function(id){
     
     box(
       title = "Your goal", solidHeader = TRUE, status = "primary", width = 4,
-      
       uiOutput(outputId = ns("select_input")),
-      
       br(),
-      
       uiOutput(outputId = ns("numeric_input"))
     ),
     
     box(
-      title = "Whatcha Need", solidHeader = TRUE, status = "primary", width = 4
+      title = "Whatcha Need", solidHeader = TRUE, status = "primary", width = 4,
+      target_grade_module_ui(id = "target-grade-module")
     )
   )
 }
+
+
 
 tab_whatcha_need_module <- function(input, output, session, tab_compute_grade){
   
@@ -42,7 +42,7 @@ tab_whatcha_need_module <- function(input, output, session, tab_compute_grade){
     selectInput(
       inputId = session$ns("grade_category"), 
       label = "Choose grade category", 
-      choices = tab_compute_grade$assessments()
+      choices = tab_compute_grade$grade_categories()
     )
   })
   

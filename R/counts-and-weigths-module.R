@@ -16,15 +16,15 @@ counts_and_weights_module_ui <- function(id){
   
 }
 
-counts_and_weights_module <- function(input, output, session, assessments){
+counts_and_weights_module <- function(input, output, session, grade_categories){
   
   output$counts_and_weights <- renderRHandsontable({
     
-    if(length(assessments()) == 0){
+    if(length(grade_categories()) == 0){
       out <- NULL
     } else {
       out <- data.table(
-        "Assessment Types" = stringr::str_to_title(assessments()),
+        "Grade Categories" = grade_categories(),
         "Counts" = NA_integer_,
         "Weights" = NA_real_
       ) %>%

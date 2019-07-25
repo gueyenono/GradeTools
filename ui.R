@@ -13,12 +13,13 @@ library(ggplot2)
 source("R/tab-compute-grade-module.R")
 source("R/tab-whatcha-need-module.R")
 source("R/helper_functions.R")
-source("R/assessment-types-module.R")
+source("R/grade-categories-module.R")
 source("R/counts-and-weigths-module.R")
 source("R/scores-module.R")
 source("R/scores-evolution-module.R")
-source("R/performance-by-assessment-valuebox-module.R")
+source("R/performance-by-grade-category-valuebox-module.R")
 source("R/total-grade-module.R")
+source("R/target-grade-module.R")
 
 
 shinyUI(dashboardPage(

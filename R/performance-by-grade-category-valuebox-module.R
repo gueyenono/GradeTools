@@ -1,4 +1,4 @@
-performance_by_assessment_valuebox_module_ui <- function(id){
+performance_by_grade_category_valuebox_module_ui <- function(id){
   
   ns <- NS(id)
   
@@ -7,17 +7,17 @@ performance_by_assessment_valuebox_module_ui <- function(id){
 }
 
 
-performance_by_assessment_valuebox_module <- function(input, output, session, counts_and_weights, scores){
+performance_by_grade_category_valuebox_module <- function(input, output, session, counts_and_weights, scores){
   
   tidy_performance <- reactive({
     
     if(is.null(counts_and_weights()) | is.null(scores())){
       out <- NULL
     } else {
-      out <- gather(scores(), key = "Assessment Types", value = "Scores") %>%
+      out <- gather(scores(), key = "Grade Categories", value = "Scores") %>%
         left_join(counts_and_weights()) %>%
         filter(!is.na(Scores)) %>%
-        group_by(`Assessment Types`) %>%
+        group_by(`Grade Categories`) %>%
         summarize_at(.vars = vars(Scores, Counts, Weights), .funs = mean) %>%
         mutate(`Weighted Average` = (Scores * (Weights / 100))) %>%
         rename(`Percentage Average` = Scores)
@@ -36,7 +36,7 @@ performance_by_assessment_valuebox_module <- function(input, output, session, co
     if(is.null(tidy_performance())){
       out <- NULL
     } else {
-      out <- pmap(list(assessment_type = tidy_performance()$`Assessment Types`,
+      out <- pmap(list(assessment_type = tidy_performance()$`Grade Categories`,
                        percentage = tidy_performance()$`Percentage Average`),
                   
                   function(assessment_type, percentage){

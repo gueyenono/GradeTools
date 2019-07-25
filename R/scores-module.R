@@ -51,7 +51,7 @@ scores_module <- function(input, output, session, counts_and_weights){
       
       out <- rerun(nrow(counts_and_weights()), rep(NA_real_, max_count)) %>%
         as.data.table() %>%
-        setNames(counts_and_weights()$`Assessment Types`) %>%
+        setNames(counts_and_weights()$`Grade Categories`) %>%
         rhandsontable() %>%
         hot_table(stretchH = "all") %>%
         make_read_only_cells(read_only_cells = read_only_cells())

@@ -7,8 +7,8 @@ tab_compute_grade_module_ui <- function(id){
     fluidRow(
       
       box(
-        id = ns("box1"), title = "Assessment types", solidHeader = TRUE, status = "primary", width = 4,
-        assessment_types_module_ui(id = ns("assessment_types"))
+        id = ns("box1"), title = "Grade Categories", solidHeader = TRUE, status = "primary", width = 4,
+        grade_categories_module_ui(id = ns("grade-categories"))
       ),
       
       shinyjs::hidden(div(id = ns("box2"),
@@ -36,7 +36,7 @@ tab_compute_grade_module_ui <- function(id){
                           
                           box(
                             title = "Performance by Assessment Type", solidHeader = TRUE, status = "primary", width = 4,
-                            performance_by_assessment_valuebox_module_ui(id = ns("performance-by-assessment"))
+                            performance_by_grade_category_valuebox_module_ui(id = ns("performance-by-assessment"))
                           ),
                           
                           box(
@@ -45,20 +45,18 @@ tab_compute_grade_module_ui <- function(id){
                           )
       ))
     )
-    
   )
-  
 }
 
 tab_compute_grade_module <- function(input, output, session){
   
   # User chooses assessment types
   
-  assessments <- callModule(module = assessment_types_module, id = "assessment_types")
+  grade_categories <- callModule(module = grade_categories_module, id = "grade-categories")
   
-  observeEvent(assessments$click(), {
+  observeEvent(grade_categories$click(), {
     
-    if(!assessments$missing_input()){
+    if(!grade_categories$missing_input()){
       shinyjs::show(id = "box2", anim = TRUE, animType = "fade")
       shinyjs::hide(id = "box3", anim = TRUE, animType = "fade")
       shinyjs::hide(id = "box4", anim = TRUE, animType = "fade")
@@ -71,11 +69,11 @@ tab_compute_grade_module <- function(input, output, session){
   
   # User specifies counts and weights for each assessment type
   
-  counts_and_weights <- callModule(module = counts_and_weights_module, id = "counts-and-weights", assessments = assessments$return_value)
+  counts_and_weights <- callModule(module = counts_and_weights_module, id = "counts-and-weights", grade_categories = grade_categories$return_value)
   
   observeEvent(counts_and_weights$click(), {
     
-    if(!assessments$missing_input() & !counts_and_weights$missing_input()){
+    if(!grade_categories$missing_input() & !counts_and_weights$missing_input()){
       shinyjs::show(id = "box3", anim = TRUE, animType = "fade")
       shinyjs::hide(id = "box4", anim = TRUE, animType = "fade")
     } else {
@@ -92,7 +90,7 @@ tab_compute_grade_module <- function(input, output, session){
   
   observeEvent(scores$click(), {
     
-    if(!assessments$missing_input() & !counts_and_weights$missing_input() & !scores$missing_input()){
+    if(!grade_categories$missing_input() & !counts_and_weights$missing_input() & !scores$missing_input()){
       shinyjs::show(id = "box4", anim = TRUE, animType = "fade")
     } else {
       shinyjs::hide(id = "box4", anim = TRUE, animType = "fade")
@@ -102,7 +100,7 @@ tab_compute_grade_module <- function(input, output, session){
   
   # Display performance (percentages) by assessment type in value boxes
   
-  tidy_performance <- callModule(module = performance_by_assessment_valuebox_module, id = "performance-by-assessment", 
+  tidy_performance <- callModule(module = performance_by_grade_category_valuebox_module, id = "performance-by-assessment", 
                                  counts_and_weights = counts_and_weights$return_value, scores = scores$return_value)
   
   # Display the evolution of scores by assessment type in bar plots
@@ -114,7 +112,7 @@ tab_compute_grade_module <- function(input, output, session){
   total_grade <- callModule(module = total_grade_module, id = "total-grade", tidy_performance = tidy_performance)
   
   return(list(
-    assessments = assessments$return_value,
+    grade_categories = grade_categories$return_value,
     counts_and_weights = counts_and_weights$return_value,
     scores = scores$return_value,
     tidy_performance = tidy_performance,
