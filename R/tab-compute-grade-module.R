@@ -111,6 +111,16 @@ tab_compute_grade_module <- function(input, output, session){
   
   # Display the total grade
   
-  callModule(module = total_grade_module, id = "total-grade", tidy_performance = tidy_performance)
+  total_grade <- callModule(module = total_grade_module, id = "total-grade", tidy_performance = tidy_performance)
+  
+  return(list(
+    assessments = assessments$return_value,
+    counts_and_weights = counts_and_weights$return_value,
+    scores = scores$return_value,
+    tidy_performance = tidy_performance,
+    total_grade = total_grade$grade,
+    grade_color = total_grade$grade_color,
+    grade_icon = total_grade$grade_icon
+  ))
   
 }

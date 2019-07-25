@@ -20,39 +20,53 @@ total_grade_module <- function(input, output, session, tidy_performance){
     return(out)
   })
   
-  observe({
-    print(grade())
-  })
-  
-  output$total_grade <- renderUI({
+  grade_color <- reactive({
     
     if(is.null(grade())){
-      NULL
+      out <- NULL
     } else {
-      color <- case_when(
+      out <- case_when(
         grade() >= 90                ~ "green",
-        grade() < 90 & grade() >= 80 ~ "lime",
-        grade() < 80 & grade() >= 70 ~ "blue",
-        grade() < 70 & grade() >= 60 ~ "yellow",
+        grade() < 90 & grade() >= 80 ~ "blue",
+        grade() < 80 & grade() >= 70 ~ "yellow",
+        grade() < 70 & grade() >= 60 ~ "orange",
         grade() < 60                 ~ "red"
       )
-      
-      icon <- case_when(
+    }
+    return(out)
+  })
+  
+  grade_icon <- reactive({
+    
+    if(is.null(grade())){
+      out <- NULL
+    } else {
+      out <- case_when(
         grade() >= 90                ~ "grin-stars",
         grade() < 90 & grade() >= 80 ~ "smile-beam",
         grade() < 80 & grade() >= 70 ~ "meh",
         grade() < 70 & grade() >= 60 ~ "grimace",
         grade() < 60                 ~ "sad-tear"
       )
-      
-      valueBox(
-        value = paste(grade(), "%"), 
-        subtitle = "Total Grade", 
-        color = color, 
-        icon = icon(icon)
-      )
     }
     
   })
+  
+  output$total_grade <- renderUI({
+    
+    valueBox(
+      value = paste(grade(), "%"), 
+      subtitle = "Total Grade", 
+      color = grade_color(), 
+      icon = icon(grade_icon())
+    )
+    
+  })
+  
+  return(list(
+    grade = grade,
+    grade_color = grade_color,
+    grade_icon = grade_icon
+  ))
   
 }

@@ -10,7 +10,8 @@ library(data.table)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
-source("R/tab_compute_grade_module.R")
+source("R/tab-compute-grade-module.R")
+source("R/tab-whatcha-need-module.R")
 source("R/helper_functions.R")
 source("R/assessment-types-module.R")
 source("R/counts-and-weigths-module.R")
@@ -37,25 +38,8 @@ shinyUI(dashboardPage(
     useShinyalert(),
     
     tabItems(
-      
-      tabItem(tabName = "compute_grade",  tab_compute_grade_module_ui(id = "tab-compute-grade")
-      ),
-      
-      tabItem(
-        tabName = "whatcha_need",
-        
-        box(
-          title = "Current Total Grade", solidHeader = TRUE, status = "primary", width = 4
-        ),
-        
-        box(
-          title = "Your goal", solidHeader = TRUE, status = "primary", width = 4
-        ),
-        
-        box(
-          title = "Whatcha Need", solidHeader = TRUE, status = "primary", width = 4
-        )
-      )
+      tabItem(tabName = "compute_grade", tab_compute_grade_module_ui(id = "tab-compute-grade")),
+      tabItem(tabName = "whatcha_need", tab_whatcha_need_module_ui(id = "tab-whatcha-need"))
     )
   )
 ))
