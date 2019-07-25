@@ -116,7 +116,7 @@ The final step is the determination of $X_{i(n_i+1)}$. This can be achieved by e
 
 $$
 \begin{align}
-(\frac{1}{n_i + 1}\sum_{k = 1}^{n_i }X_{ik}) + \frac{X_{i(n_i+1)}}{n_i + 1} &= \frac{w_i}{\sum_{i = 1}^{n}w_i(G^* - G)} \\
+\frac{1}{n_i + 1}\sum_{k = 1}^{n_i }X_{ik} + \frac{X_{i(n_i+1)}}{n_i + 1} &= \frac{w_i}{\sum_{i = 1}^{n}w_i(G^* - G)} \\
                                                \frac{X_{i(n_i+1)}}{n_i + 1} &= \frac{w_i}{\sum_{i = 1}^{n}w_i(G^* - G)} - \frac{1}{n_i + 1}\sum_{k = 1}^{n_i }X_{ik}
 \end{align}
 $$
