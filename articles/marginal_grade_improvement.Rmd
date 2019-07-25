@@ -1,0 +1,128 @@
+---
+title: "What do I need on the next test? How to estimate marginal grade improvement?"
+author: "Ghislain Nono Gueye, Ph.D."
+date: "7/24/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+_(Practical example with actual scores and what not)_
+
+
+# Notations
+
+_Superscript *_ means desired value.
+
+Let $X_i$ be an assessment type with $i \in \{1, 2, ...\}$. 
+
+- $X_1$: homework
+- $X_2$: quizzes
+- $X_3$: tests
+
+$n_i$ is the number of times $X_i$ was administered:
+
+- $n_1 = 2$: 2 homework assignments
+- $n_2 = 3$: 3 quizzes
+- $n_3 = 2$: 2 tests
+
+$X_{ij}$ is the $j^{th}$ score obtain in $X_i$ assessment category.
+
+- $X_{11}$ is the first homework score and $X_{12}$ is the second homework score.
+- The quizzes scores are $X_{21}$, $X_{22}$ and $X_{23}$.
+- Finally, the test scores are $X_{31}$ and $X_{32}$.
+
+Finally, $w_i$ is the weight of $X_i$:
+
+- $w_1$ is the weight of $X_1$: homework
+- $w_2$ is the weight of $X_2$: quizzes
+- $w_3$ is the weigsht of $X_3$: tests
+
+
+# Computing total grade
+
+First step, compute the percent average $\bar{X_i}$ for each assessment type:
+
+$$
+\bar{X_i} = \frac{1}{n_i}\sum_{k = 1}^{n_i}X_{ik}
+$$
+
+_(Use data in intro to compute average for each assessment type)_
+
+Then, the weight is applied to the corresponding assessment type.
+
+$$
+\sum_{i = 1}^{n}w_i\bar{X_i}
+$$
+
+The total grade is obtained by adjusting the above sum for the total weights of assessment types, which have been administered so far. Let the total grade be $G$:
+
+$$
+G = \frac{1}{\sum_{i = 1}^{n}w_i}\sum_{i = 1}^{n}w_i\bar{X_i}
+$$
+
+
+# The computation of marginal grade improvement
+
+_"What do I need to make on the next test to get a B?"_. Let's the desired grade be $G^*$. The required grade improvement is, therefore, $G^* - G$.
+
+First, we need to compute the impact on total grade of an increase in any average $\bar{X_i}$:
+
+$$
+\frac{\partial{G}}{\partial{\bar{X_i}}} = \frac{w_i}{\sum_{i = 1}^{n}w_i}\bar{X_i}^{-1}
+$$
+
+The student's goal is to increase the average $\bar{X_i}$ such that the impact on $G$ is equal to $G^* - G$.
+
+$$
+\begin{align}
+G^* - G &= \frac{\partial{G}}{\partial{\bar{X_i}}} \\
+       &= \frac{w_i}{\sum_{i = 1}^{n}w_i}\bar{X_i}^{-1} \\
+       &= \frac{w_i}{\sum_{i = 1}^{n}w_i\bar{X_i}}
+\end{align}
+$$
+
+The new average the student needs to reach after the next assessment is:
+
+$$
+\bar{X_i}^* = \frac{w_i}{\sum_{i = 1}^{n}w_i(G^* - G)}
+$$
+
+Now, we can compute the exact score needed by the student. Currently, the number of assessments within the category of interest is $n_i$ and the average is $\bar{X_i}$. Once again, the average is:
+
+$$
+\bar{X_i} = \frac{1}{n_i}\sum_{k = 1}^{n_i}X_{ik}
+$$
+ 
+However, the desired average is computed as:
+
+$$
+\bar{X_i}^* = \frac{1}{n_i + 1}\sum_{k = 1}^{n_i + 1}X_{ik} \\
+$$
+
+which can be rewritten as:
+
+$$
+\bar{X_i}^* = \frac{1}{n_i + 1}\sum_{k = 1}^{n_i }X_{ik} + \frac{X_{i(n_i+1)}}{n_i + 1}
+$$
+
+$X_{i(n_i+1)}$ is essentially what the student is trying to find. It is the score of the next assessment that the student needs to obtain in order to achieve $\bar{X_i}^*$ and ultimately get their desired grade.
+
+The final step is the determination of $X_{i(n_i+1)}$. This can be achieved by equation the two main expressions for $\bar{X_i}^*$ above:
+
+$$
+\begin{align}
+(\frac{1}{n_i + 1}\sum_{k = 1}^{n_i }X_{ik}) + \frac{X_{i(n_i+1)}}{n_i + 1} &= \frac{w_i}{\sum_{i = 1}^{n}w_i(G^* - G)} \\
+                                               \frac{X_{i(n_i+1)}}{n_i + 1} &= \frac{w_i}{\sum_{i = 1}^{n}w_i(G^* - G)} - \frac{1}{n_i + 1}\sum_{k = 1}^{n_i }X_{ik}
+\end{align}
+$$
+
+The final result is:
+
+$$
+X^*_{i(n_i+1)} = \frac{(n_i + 1)w_i}{\sum_{i = 1}^{n}w_i(G^* - G)} - \sum_{k = 1}^{n_i }X_{ik}
+$$
