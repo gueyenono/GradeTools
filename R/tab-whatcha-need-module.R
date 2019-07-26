@@ -16,9 +16,12 @@ tab_whatcha_need_module_ui <- function(id){
         compute_target_score_module_ui(id = ns("set-targets-module"))
       ),
       
-      box(
-        title = "Whatcha Need", solidHeader = TRUE, status = "primary", width = 4,
-        display_target_score_module_ui(id = ns("target-grade-module"))
+      shinyjs::hidden(
+        div(id = ns("target-score-box"),
+            box(
+              title = "Whatcha Need", solidHeader = TRUE, status = "primary", width = 4,
+              display_target_score_module_ui(id = ns("target-grade-module"))
+            ))
       )
       
     )
@@ -40,6 +43,11 @@ tab_whatcha_need_module <- function(input, output, session, tab_compute_grade){
                              tidy_performance = tab_compute_grade$tidy_performance,
                              current_grade = tab_compute_grade$total_grade$grade)
   
-  callModule(module = display_target_score_module, id = "target-grade-module", target_score = target_score)
+  
+  observeEvent(target_score$click(), {
+    shinyjs::show(id = "target-score-box", anim = TRUE, animType = "fade")
+  })
+  
+  callModule(module = display_target_score_module, id = "target-grade-module", target_score = target_score$return_value)
   
 }
