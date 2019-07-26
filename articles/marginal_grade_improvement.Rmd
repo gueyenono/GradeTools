@@ -62,7 +62,7 @@ $$
 The total grade is obtained by adjusting the above sum for the total weights of assessment types, which have been administered so far. Let the total grade be $G$:
 
 $$
-G = \frac{1}{\sum_{i = 1}^{n}w_i}\sum_{i = 1}^{n}w_i\bar{X_i}
+G = \frac{\sum_{i = 1}^{n}w_i\bar{X_i}}{\sum_{i = 1}^{n}w_i}
 $$
 
 
@@ -73,7 +73,10 @@ _"What do I need to make on the next test to get a B?"_. Let's the desired grade
 First, we need to compute the impact on total grade of an increase in any average $\bar{X_i}$:
 
 $$
-\frac{\partial{G}}{\partial{\bar{X_i}}} = \frac{w_i}{\sum_{i = 1}^{n}w_i}\bar{X_i}^{-1}
+\begin{align}
+\frac{\partial{G}}{\partial{\bar{X_i}}} &= \frac{w_i}{\sum_{i = 1}^{n}w_i}\bar{X_i}^{-1} \\
+\frac{\partial{G}}{\partial{\bar{X_i}}} &= \frac{w_i}{\sum_{i = 1}^{n}w_i\bar{X_i}}
+\end{align}
 $$
 
 The student's goal is to increase the average $\bar{X_i}$ such that the impact on $G$ is equal to $G^* - G$.

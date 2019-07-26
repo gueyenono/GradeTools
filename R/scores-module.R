@@ -79,7 +79,7 @@ scores_module <- function(input, output, session, counts_and_weights){
     if(missing_input()){
       out <- NULL
     } else {
-      out <- df
+      out <- as.data.table(df)
     }
     
     return(out)

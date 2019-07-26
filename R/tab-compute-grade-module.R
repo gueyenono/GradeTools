@@ -50,6 +50,8 @@ tab_compute_grade_module_ui <- function(id){
 
 tab_compute_grade_module <- function(input, output, session){
   
+  reactive_output <- reactiveValues()
+  
   # User chooses assessment types
   
   grade_categories <- callModule(module = grade_categories_module, id = "grade-categories")
@@ -111,14 +113,13 @@ tab_compute_grade_module <- function(input, output, session){
   
   total_grade <- callModule(module = total_grade_module, id = "total-grade", tidy_performance = tidy_performance)
   
+  
   return(list(
-    grade_categories = grade_categories$return_value,
-    counts_and_weights = counts_and_weights$return_value,
-    scores = scores$return_value,
+    grade_categories = grade_categories,
+    counts_and_weights = counts_and_weights,
+    scores = scores,
     tidy_performance = tidy_performance,
-    total_grade = total_grade$grade,
-    grade_color = total_grade$grade_color,
-    grade_icon = total_grade$grade_icon
+    total_grade = total_grade
   ))
   
 }

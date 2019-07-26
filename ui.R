@@ -19,7 +19,9 @@ source("R/scores-module.R")
 source("R/scores-evolution-module.R")
 source("R/performance-by-grade-category-valuebox-module.R")
 source("R/total-grade-module.R")
-source("R/target-grade-module.R")
+source("R/display-current-grade-module.R")
+source("R/compute-target-score-module.R")
+source("R/display-target-score-module.R")
 
 
 shinyUI(dashboardPage(

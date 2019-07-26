@@ -426,7 +426,7 @@ $(document).ready(function () {
 \]</span></p>
 <p>The total grade is obtained by adjusting the above sum for the total weights of assessment types, which have been administered so far. Let the total grade be <span class="math inline">\(G\)</span>:</p>
 <p><span class="math display">\[
-G = \frac{1}{\sum_{i = 1}^{n}w_i}\sum_{i = 1}^{n}w_i\bar{X_i}
+G = \frac{\sum_{i = 1}^{n}w_i\bar{X_i}}{\sum_{i = 1}^{n}w_i}
 \]</span></p>
 </div>
 <div id="the-computation-of-marginal-grade-improvement" class="section level1">
@@ -434,7 +434,10 @@ G = \frac{1}{\sum_{i = 1}^{n}w_i}\sum_{i = 1}^{n}w_i\bar{X_i}
 <p><em>“What do I need to make on the next test to get a B?”</em>. Let’s the desired grade be <span class="math inline">\(G^*\)</span>. The required grade improvement is, therefore, <span class="math inline">\(G^* - G\)</span>.</p>
 <p>First, we need to compute the impact on total grade of an increase in any average <span class="math inline">\(\bar{X_i}\)</span>:</p>
 <p><span class="math display">\[
-\frac{\partial{G}}{\partial{\bar{X_i}}} = \frac{w_i}{\sum_{i = 1}^{n}w_i}\bar{X_i}^{-1}
+\begin{align}
+\frac{\partial{G}}{\partial{\bar{X_i}}} &amp;= \frac{w_i}{\sum_{i = 1}^{n}w_i}\bar{X_i}^{-1} \\
+\frac{\partial{G}}{\partial{\bar{X_i}}} &amp;= \frac{w_i}{\sum_{i = 1}^{n}w_i\bar{X_i}}
+\end{align}
 \]</span></p>
 <p>The student’s goal is to increase the average <span class="math inline">\(\bar{X_i}\)</span> such that the impact on <span class="math inline">\(G\)</span> is equal to <span class="math inline">\(G^* - G\)</span>.</p>
 <p><span class="math display">\[

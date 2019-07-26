@@ -36,34 +36,18 @@ performance_by_grade_category_valuebox_module <- function(input, output, session
     if(is.null(tidy_performance())){
       out <- NULL
     } else {
-      out <- pmap(list(assessment_type = tidy_performance()$`Grade Categories`,
+      out <- pmap(list(grade_category = tidy_performance()$`Grade Categories`,
                        percentage = tidy_performance()$`Percentage Average`),
                   
-                  function(assessment_type, percentage){
+                  function(grade_category, percentage){
                     
                     percentage <- round(percentage, 2)
                     
-                    color <- case_when(
-                      percentage >= 90                   ~ "green",
-                      percentage < 90 & percentage >= 80 ~ "lime",
-                      percentage < 80 & percentage >= 70 ~ "blue",
-                      percentage < 70 & percentage >= 60 ~ "yellow",
-                      percentage < 60                    ~ "red"
-                    )
-                    
-                    icon <- case_when(
-                      percentage >= 90                   ~ "grin-stars",
-                      percentage < 90 & percentage >= 80 ~ "smile-beam",
-                      percentage < 80 & percentage >= 70 ~ "meh",
-                      percentage < 70 & percentage >= 60 ~ "grimace",
-                      percentage < 60                    ~ "sad-tear"
-                    )
-                    
                     valueBox(
                       value = paste(percentage, "%"), 
-                      subtitle = assessment_type, 
-                      color = color, 
-                      icon = icon(icon)
+                      subtitle = grade_category, 
+                      color = get_grade_color(percentage), 
+                      icon = icon(get_grade_icon(percentage))
                     )
                   }) %>%
         tagList()
