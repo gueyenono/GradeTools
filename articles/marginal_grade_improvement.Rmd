@@ -87,3 +87,4 @@ The last set of steps is to set _(equation 1)_ to the expression for $\bar{X_1}^
 $$
 X_{1(n_1+1)} = \frac{ n_1 + 1 }{ w_1 }(\sum_{i = 1}^{n}w_i \ G^* - \sum_{i = 2}^{n}w_i\bar{X_i}) - \sum_{i = 1}^{n_1}X_{1i}
 $$
+

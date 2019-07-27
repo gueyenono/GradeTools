@@ -20,6 +20,18 @@ total_grade_module <- function(input, output, session, tidy_performance){
     return(out)
   })
   
+  completed <- reactive({
+    
+    if(is.null(tidy_performance())){
+      out <- FALSE
+    } else {
+      out <- TRUE
+    }
+    
+    return(out)
+    
+  })
+  
   grade_color <- reactive({
     
     if(is.null(grade())){
@@ -51,6 +63,7 @@ total_grade_module <- function(input, output, session, tidy_performance){
     }
     
   })
+
   
   output$total_grade <- renderUI({
     
@@ -66,7 +79,8 @@ total_grade_module <- function(input, output, session, tidy_performance){
   return(list(
     grade = grade,
     grade_color = grade_color,
-    grade_icon = grade_icon
+    grade_icon = grade_icon,
+    completed = completed
   ))
   
 }

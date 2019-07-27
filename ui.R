@@ -29,7 +29,17 @@ shinyUI(dashboardPage(
   dashboardHeader(title = "gradetools"),
   
   dashboardSidebar(
+    
+    useShinyjs(),
+    
     sidebarMenu(
+      
+      id = "sidebar",
+      tags$head(tags$style(".inactiveLink {
+                            pointer-events: none;
+                           cursor: default;
+                           }")),
+      
       menuItem(text = "Compute Grade", tabName = "compute_grade", icon = icon("user-graduate")),
       menuItem(text = "Whatcha need?", tabName = "whatcha_need", icon = icon("calculator"))
     )
@@ -37,7 +47,6 @@ shinyUI(dashboardPage(
   
   dashboardBody(
     
-    useShinyjs(),
     useShinyalert(),
     
     tabItems(
