@@ -29,7 +29,8 @@ counts_and_weights_module <- function(input, output, session, grade_categories){
         "Weights" = NA_real_
       ) %>%
         rhandsontable(rowHeaders = NULL) %>%
-        hot_col(col = 1, readOnly = TRUE) %>%
+        hot_col(col = "Grade Categories", readOnly = TRUE) %>%
+        hot_col(col = "Weights", format = "0.00%") %>%
         hot_table(stretchH = "all")
     }
     

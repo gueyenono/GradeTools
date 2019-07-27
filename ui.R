@@ -26,7 +26,32 @@ source("R/display-target-score-module.R")
 
 shinyUI(dashboardPage(
   
-  dashboardHeader(title = "gradetools"),
+  dashboardHeader(
+    
+    title = "gradetools",
+    
+    tags$li(
+      class = "dropdown",
+      a(href = "https://github.com/gueyenono/gradetools",
+        icon("github"),
+        title = "Github")
+    ),
+    
+    tags$li(
+      class = "dropdown",
+      a(href = "https://twitter.com/GueyeNono",
+        icon("twitter"),
+        title = "Twitter")
+    ),
+    
+    tags$li(
+      class = "dropdown",
+      a(href = "mailto:nonoghislain@gmail.com",
+        icon("envelope"),
+        title = "Gmail")
+    )
+    
+  ),
   
   dashboardSidebar(
     
@@ -55,6 +80,5 @@ shinyUI(dashboardPage(
     )
   )
 ))
-  
-  
-  
+
+
