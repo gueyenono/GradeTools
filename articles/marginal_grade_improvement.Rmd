@@ -14,118 +14,76 @@ knitr::opts_chunk$set(echo = TRUE)
 _(Practical example with actual scores and what not)_
 
 
-# Notations
+Students always ask their professors: "What do I need to make on the next test in order to get a B?". I developed an application in R to help answer these questions. Even though I already derived the formula (see below) to do it, I am trying a second methodology (using partial derivatives) and it does not seem to work, which explains this present question.
 
-_Superscript *_ means desired value.
+# 1- Preliminaries
 
-Let $X_i$ be an assessment type with $i \in \{1, 2, ...\}$. 
+### Grade categories
+Courses have several grade categories (e.g. tests, homework assignments, quizzes, ...). Let the $n$ grade categories of a given course be $X_i$ with $i \in \{1, 2, ..., n\}$.
 
-- $X_1$: homework
-- $X_2$: quizzes
-- $X_3$: tests
+### Scores in each grade category
+Each grade category usually has several assessments throughout the semester/quarter. Let $X_{ij}$ denote the $j^{th}$ assessment score in the category $X_i$ with $j \in \{1, 2, ..., n_i\}$. For example, if $X_1$ refers to exams, then $X_{13}$ is the score obtained in the third exam. Note that $X_{ij}$ is a score out of 100. $n_i$ is the total number of assessments in $X_i$.
 
-$n_i$ is the number of times $X_i$ was administered:
+### Grade category weights
+The grade categories in a course are often weighed differently. Let $w_i$ represent the weight of grade category $X_i$ with $i \in \{1, 2, ..., n\}$. It is important to note that $w_i$ is in decimal form and not in percentage. For instance, if grade category $X_1$ accounts for 50% of the total grade, then $w_1 = 0.5$.
 
-- $n_1 = 2$: 2 homework assignments
-- $n_2 = 3$: 3 quizzes
-- $n_3 = 2$: 2 tests
-
-$X_{ij}$ is the $j^{th}$ score obtain in $X_i$ assessment category.
-
-- $X_{11}$ is the first homework score and $X_{12}$ is the second homework score.
-- The quizzes scores are $X_{21}$, $X_{22}$ and $X_{23}$.
-- Finally, the test scores are $X_{31}$ and $X_{32}$.
-
-Finally, $w_i$ is the weight of $X_i$:
-
-- $w_1$ is the weight of $X_1$: homework
-- $w_2$ is the weight of $X_2$: quizzes
-- $w_3$ is the weigsht of $X_3$: tests
-
-
-# Computing total grade
-
-First step, compute the percent average $\bar{X_i}$ for each assessment type:
+### Grade category averages
+$\bar{X_1}$ represent the average score of all $n_1$ assessments within the grade category $X_1$. If there were 3 assessments in the category $X_1$ and the scores were: $X_{11} = 75$, $X_{12} = 80$ and $X_{13} = 85$, then $\bar{X_1} = 80$. The general formula to compute $\bar{X_i}$ is:
 
 $$
-\bar{X_i} = \frac{1}{n_i}\sum_{k = 1}^{n_i}X_{ik}
-$$
-
-_(Use data in intro to compute average for each assessment type)_
-
-Then, the weight is applied to the corresponding assessment type.
-
-$$
-\sum_{i = 1}^{n}w_i\bar{X_i}
-$$
-
-The total grade is obtained by adjusting the above sum for the total weights of assessment types, which have been administered so far. Let the total grade be $G$:
-
-$$
-G = \frac{\sum_{i = 1}^{n}w_i\bar{X_i}}{\sum_{i = 1}^{n}w_i}
+\bar{X_i} = \frac{\sum_{k = 1}^{n_i}X_{ik}}{n_i}
 $$
 
 
-# The computation of marginal grade improvement
+### Total grade
 
-_"What do I need to make on the next test to get a B?"_. Let's the desired grade be $G^*$. The required grade improvement is, therefore, $G^* - G$.
+Computing a student's total grade consists in:
 
-First, we need to compute the impact on total grade of an increase in any average $\bar{X_i}$:
+- computing the weighted average of each grade category
+- adjusting the sum of weighted averages by the sum of weights
 
-$$
-\begin{align}
-\frac{\partial{G}}{\partial{\bar{X_i}}} &= \frac{w_i}{\sum_{i = 1}^{n}w_i}\bar{X_i}^{-1} \\
-\frac{\partial{G}}{\partial{\bar{X_i}}} &= \frac{w_i}{\sum_{i = 1}^{n}w_i\bar{X_i}}
-\end{align}
-$$
-
-The student's goal is to increase the average $\bar{X_i}$ such that the impact on $G$ is equal to $G^* - G$.
+The second step is important especially if the student wants to know their total grade before a specific grade category has been assessed. For example, let's consider a course with 3 grade categories: exams (50%), quizzes (20%) and homework (30%). If only exams and quizzes have been given (and no homework), then the sum of weighted averages of exams and quizzes must be adjusted by $0.7$ (i.e. 0.5 + 0.2 = 0.7). Let $G$ be the total grade, it is computed as:
 
 $$
-\begin{align}
-G^* - G &= \frac{\partial{G}}{\partial{\bar{X_i}}} \\
-       &= \frac{w_i}{\sum_{i = 1}^{n}w_i}\bar{X_i}^{-1} \\
-       &= \frac{w_i}{\sum_{i = 1}^{n}w_i\bar{X_i}}
-\end{align}
+G = \frac{ \sum_{i = 1}^{n}w_i\bar{X_i} }{ \sum_{i = 1}^{n}w_i }
 $$
 
-The new average the student needs to reach after the next assessment is:
+# 2- Computing the answer
+
+### My first methodology
+
+Let $G^*$ be a student's desired total grade. The student wants to know what they should make in the next assessment of $X_1$ in order to reach $G^*$. The student's performance in the next assessment of $X_1$ is $X_{1(n_1 + 1)}$. Essentially, the student is hoping to bring up $\bar{X_1}$ high enough so that the total grade equal $G^*$. Let's denote the desired/target grade category average as $\bar{X_1}^*$
+
+Given the above, $G^*$ can be expressed as:
 
 $$
-\bar{X_i}^* = \frac{w_i}{\sum_{i = 1}^{n}w_i(G^* - G)}
+G^* = \frac{ \sum_{i = 1}^{n}w_i\bar{X_i} }{ \sum_{i = 1}^{n}w_i } \\
 $$
 
-Now, we can compute the exact score needed by the student. Currently, the number of assessments within the category of interest is $n_i$ and the average is $\bar{X_i}$. Once again, the average is:
+$$
+G^* = \frac{ w_1\bar{X_1}^* + \sum_{i = 2}^{n}w_i\bar{X_i} }{ \sum_{i = 1}^{n}w_i }\\
+$$
+
+Solving for $\bar{X_1}^*$, we obtain:
 
 $$
-\bar{X_i} = \frac{1}{n_i}\sum_{k = 1}^{n_i}X_{ik}
+\bar{X_1}^* = \frac{ \sum_{i = 1}^{n} w_i \ G^* - \sum_{i = 2}^{n}w_i\bar{X_i} }{ w_1 } \text{(equation 1)}
 $$
- 
-However, the desired average is computed as:
+
+At this point, we need to expand $\bar{X_1}^*$:
 
 $$
-\bar{X_i}^* = \frac{1}{n_i + 1}\sum_{k = 1}^{n_i + 1}X_{ik} \\
+\bar{X_1}^* = \frac{ \sum_{i = 1}^{n_1 + 1}X_{1i} }{ n_1 + 1 }
 $$
 
 which can be rewritten as:
 
 $$
-\bar{X_i}^* = \frac{1}{n_i + 1}\sum_{k = 1}^{n_i }X_{ik} + \frac{X_{i(n_i+1)}}{n_i + 1}
+\bar{X_1}^* = \frac{ \sum_{i = 1}^{n_1}X_{1i} + X_{1(n_1+1)} }{ n_1 + 1 }
 $$
 
-$X_{i(n_i+1)}$ is essentially what the student is trying to find. It is the score of the next assessment that the student needs to obtain in order to achieve $\bar{X_i}^*$ and ultimately get their desired grade.
-
-The final step is the determination of $X_{i(n_i+1)}$. This can be achieved by equation the two main expressions for $\bar{X_i}^*$ above:
+The last set of steps is to set _(equation 1)_ to the expression for $\bar{X_1}^*$ and then solve for $X_{1(n_1+1)}$. The final result is:
 
 $$
-\begin{align}
-\frac{1}{n_i + 1}\sum_{k = 1}^{n_i }X_{ik} + \frac{X_{i(n_i+1)}}{n_i + 1} &= \frac{w_i}{\sum_{i = 1}^{n}w_i(G^* - G)} \\
-                                               \frac{X_{i(n_i+1)}}{n_i + 1} &= \frac{w_i}{\sum_{i = 1}^{n}w_i(G^* - G)} - \frac{1}{n_i + 1}\sum_{k = 1}^{n_i }X_{ik}
-\end{align}
-$$
-
-The final result is:
-
-$$
-X^*_{i(n_i+1)} = \frac{(n_i + 1)w_i}{\sum_{i = 1}^{n}w_i(G^* - G)} - \sum_{k = 1}^{n_i }X_{ik}
+X_{1(n_1+1)} = \frac{ n_1 + 1 }{ w_1 }(\sum_{i = 1}^{n}w_i \ G^* - \sum_{i = 2}^{n}w_i\bar{X_i}) - \sum_{i = 1}^{n_1}X_{1i}
 $$
