@@ -10,67 +10,39 @@ library(data.table)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
+source("R/tab-compute-grade-module.R")
+source("R/tab-whatcha-need-module.R")
 source("R/helper_functions.R")
-source("R/assessment-types-module.R")
+source("R/grade-categories-module.R")
 source("R/counts-and-weigths-module.R")
 source("R/scores-module.R")
 source("R/scores-evolution-module.R")
-source("R/performance-by-assessment-valuebox-module.R")
+source("R/performance-by-grade-category-valuebox-module.R")
 source("R/total-grade-module.R")
+source("R/display-current-grade-module.R")
+source("R/compute-target-score-module.R")
+source("R/display-target-score-module.R")
 
 
 shinyUI(dashboardPage(
   
-  dashboardHeader(title = "gradetools v. 0.1"),
+  dashboardHeader(title = "gradetools"),
   
-  dashboardSidebar(),
+  dashboardSidebar(
+    sidebarMenu(
+      menuItem(text = "Compute Grade", tabName = "compute_grade", icon = icon("user-graduate")),
+      menuItem(text = "Whatcha need?", tabName = "whatcha_need", icon = icon("calculator"))
+    )
+  ),
   
   dashboardBody(
     
     useShinyjs(),
     useShinyalert(),
     
-    fluidRow(
-      
-      box(
-        id = "box1", title = "Assessment types", solidHeader = TRUE, status = "primary", width = 4,
-        assessment_types_module_ui(id = "assessment_types")
-      ),
-      
-      shinyjs::hidden(div(id = "box2",
-                          box(
-                            title = "Counts and Weights", solidHeader = TRUE, status = "primary", width = 4,
-                            counts_and_weights_module_ui(id = "counts-and-weights")
-                          ))
-      ),
-      
-      shinyjs::hidden(div(id = "box3",
-                          box(
-                            title = "Scores", solidHeader = TRUE, status = "primary", width = 4,
-                            scores_module_ui(id = "scores")
-                          )
-      ))
-    ),
-    
-    fluidRow(
-      
-      shinyjs::hidden(div(id = "box4",
-                          box(
-                            title = "Evolution of Scores", solidHeader = TRUE, status = "primary", width = 4,
-                            scores_evolution_module_ui(id = "scores-evolution")
-                          ),
-                          
-                          box(
-                            title = "Performance by Assessment Type", solidHeader = TRUE, status = "primary", width = 4,
-                            performance_by_assessment_valuebox_module_ui(id = "performance-by-assessment")
-                          ),
-                          
-                          box(
-                            title = "Overall Performance", solidHeader = TRUE, status = "primary", width = 4,
-                            total_grade_module_ui(id = "total-grade")
-                          )
-                      )
-      )
+    tabItems(
+      tabItem(tabName = "compute_grade", tab_compute_grade_module_ui(id = "tab-compute-grade")),
+      tabItem(tabName = "whatcha_need", tab_whatcha_need_module_ui(id = "tab-whatcha-need"))
     )
   )
 ))
