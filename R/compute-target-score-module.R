@@ -53,7 +53,31 @@ compute_target_score_module <- function(input, output, session, grade_categories
     
     round(out, 2)
   })
-
+  
+  
+  # target_score_2 <- eventReactive(input$submit, {
+  # 
+  #   ni <- tidy_performance()[tidy_performance()$`Grade Categories` == input$target_grade_category, "Counts"]
+  #   wi <- tidy_performance()[tidy_performance()$`Grade Categories` == input$target_grade_category, "Weights"] / 100
+  # 
+  #   sum_wi <- sum(tidy_performance()$Weights) / 100
+  #   partial_sum_weighted_avg <- sum(tidy_performance()[tidy_performance()$`Grade Categories` != input$target_grade_category, "Weighted Average"])
+  #   sum_weighted_avg <- sum(tidy_performance()[, "Weighted Average"])
+  #   weighted_avg_i <- tidy_performance()[tidy_performance()$`Grade Categories` == input$target_grade_category, "Weighted Average"]
+  # 
+  #   sum_Xik <- sum(scores()[[input$target_grade_category]])
+  #   G_star <- input$target_grade
+  #   G <- current_grade()
+  # 
+  #   out <- (1/wi) * (ni+1)*(G_star - 2*G + wi*weighted_avg_i)/wi - sum_Xik
+  #   round(out, 2)
+  # 
+  # })
+  # 
+  # observeEvent(input$submit, {
+  #   print(target_score())
+  #   print(target_score_2())
+  # })
   
   return(list(
     return_value = target_score,

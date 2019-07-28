@@ -8,10 +8,10 @@ tab_whatcha_need_module_ui <- function(id){
       
       box(
         title = "Current Total Grade", solidHeader = TRUE, status = "primary", width = 4,
-        column(
-          width = 12, align = "center",
-          display_current_grade_module_ui(id = ns("display-current-grade-module"))
-        )
+          div(
+            # style="width: 50%; margin: 0 auto;",
+            display_current_grade_module_ui(id = ns("display-current-grade-module"))
+          )
       ),
       
       box(

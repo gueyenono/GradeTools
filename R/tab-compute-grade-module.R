@@ -6,6 +6,12 @@ tab_compute_grade_module_ui <- function(id){
     
     fluidRow(
       
+      # box(
+      #   div(style="width: 50%; margin: 0 auto;",
+      #       selectInput(inputId = "aaa", label = "aaa", choices = letters)
+      #   )
+      # ),
+      
       box(
         id = ns("box1"), title = "Grade Categories", solidHeader = TRUE, status = "primary", width = 4,
         grade_categories_module_ui(id = ns("grade-categories"))
