@@ -41,43 +41,56 @@ compute_target_score_module <- function(input, output, session, grade_categories
   
   target_score <- eventReactive(input$submit, {
     
-    ni <- tidy_performance()[tidy_performance()$`Grade Categories` == input$target_grade_category, "Counts"]
-    wi <- tidy_performance()[tidy_performance()$`Grade Categories` == input$target_grade_category, "Weights"] / 100
+    ni <- tidy_performance()$Counts[tidy_performance()$`Grade Categories` == input$target_grade_category]
+    wi <- tidy_performance()$Weights[tidy_performance()$`Grade Categories` == input$target_grade_category] / 100
     
-    sum_wi <- sum(tidy_performance()$Weights) / 100
-    partial_sum_weigthed_avg <- sum(tidy_performance()[tidy_performance()$`Grade Categories` != input$target_grade_category, "Weighted Average"])
-    sum_Xik <- sum(scores()[[input$target_grade_category]])
+    sum_wi <- sum(tidy_performance()$Weights, na.rm = TRUE) / 100
+    partial_sum_weighted_avg <- sum(tidy_performance()$`Weighted Average`[tidy_performance()$`Grade Categories` != input$target_grade_category], na.rm = TRUE)
+    sum_Xik <- sum(scores()[[input$target_grade_category]], na.rm = TRUE)
     G_star <- input$target_grade
 
-    out <- (ni + 1) * (((sum_wi * G_star) - partial_sum_weigthed_avg) / wi) - sum_Xik
+    out <- (ni + 1) * (((sum_wi * G_star) - partial_sum_weighted_avg) / wi) - sum_Xik
     
     round(out, 2)
   })
   
-  
-  # target_score_2 <- eventReactive(input$submit, {
-  # 
-  #   ni <- tidy_performance()[tidy_performance()$`Grade Categories` == input$target_grade_category, "Counts"]
-  #   wi <- tidy_performance()[tidy_performance()$`Grade Categories` == input$target_grade_category, "Weights"] / 100
-  # 
-  #   sum_wi <- sum(tidy_performance()$Weights) / 100
-  #   partial_sum_weighted_avg <- sum(tidy_performance()[tidy_performance()$`Grade Categories` != input$target_grade_category, "Weighted Average"])
-  #   sum_weighted_avg <- sum(tidy_performance()[, "Weighted Average"])
-  #   weighted_avg_i <- tidy_performance()[tidy_performance()$`Grade Categories` == input$target_grade_category, "Weighted Average"]
-  # 
-  #   sum_Xik <- sum(scores()[[input$target_grade_category]])
+  # observeEvent(input$submit,{
+  #   
+  #   ni <- tidy_performance()$Counts[tidy_performance()$`Grade Categories` == input$target_grade_category]
+  #   wi <- tidy_performance()$Weights[tidy_performance()$`Grade Categories` == input$target_grade_category] / 100
+  #   
+  #   sum_wi <- sum(tidy_performance()$Weights, na.rm = TRUE) / 100
+  #   partial_sum_weighted_avg <- sum(tidy_performance()$`Weighted Average`[tidy_performance()$`Grade Categories` != input$target_grade_category], na.rm = TRUE)
+  #   sum_Xik <- sum(scores()[[input$target_grade_category]], na.rm = TRUE)
   #   G_star <- input$target_grade
-  #   G <- current_grade()
-  # 
-  #   out <- (1/wi) * (ni+1)*(G_star - 2*G + wi*weighted_avg_i)/wi - sum_Xik
-  #   round(out, 2)
-  # 
+  #   
+  #   out <- (ni + 1) * (((sum_wi * G_star) - partial_sum_weighted_avg) / wi) - sum_Xik
+  #   
+  #   print(lst(out, ni, wi, sum_wi, partial_sum_weighted_avg, sum_Xik, G_star))
   # })
-  # 
-  # observeEvent(input$submit, {
-  #   print(target_score())
-  #   print(target_score_2())
-  # })
+  
+  
+  target_score_2 <- eventReactive(input$submit, {
+
+    np <- tidy_performance()$Counts[tidy_performance()$`Grade Categories` == input$target_grade_category]
+    wp <- tidy_performance()$Weights[tidy_performance()$`Grade Categories` == input$target_grade_category] / 100
+    G_star <- input$target_grade
+    G <- current_grade()
+    avg_p <- tidy_performance()$`Percentage Average`[tidy_performance()$`Grade Categories` == input$target_grade_category]
+    weighted_avg_p <- tidy_performance()$`Weighted Average`[tidy_performance()$`Grade Categories` == input$target_grade_category]
+    sum_scores_p <- sum(scores()[[input$target_grade_category]], na.rm = TRUE)
+    sum_w <- sum(tidy_performance()$Weights / 100, na.rm = TRUE)
+
+    out <- ((np+1) / wp) * ((G_star*sum_w) - G + weighted_avg_p) - (np*avg_p)
+
+    lst(out, np, wp, G_star, G, sum_w, weighted_avg_p, sum_scores_p)
+
+  })
+
+  observeEvent(input$submit, {
+    print(target_score())
+    print(target_score_2())
+  })
   
   return(list(
     return_value = target_score,

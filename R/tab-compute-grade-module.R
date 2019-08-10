@@ -104,6 +104,8 @@ tab_compute_grade_module <- function(input, output, session){
       shinyjs::hide(id = "box4", anim = TRUE, animType = "fade")
     }
     
+    print(scores$return_value())
+    
   })
   
   # Display performance (percentages) by assessment type in value boxes

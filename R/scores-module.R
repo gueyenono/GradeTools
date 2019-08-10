@@ -102,7 +102,8 @@ scores_module <- function(input, output, session, counts_and_weights){
       
       shinyjs::enable(id = "submit")
       
-    } 
+    }
+
   })
 
   
