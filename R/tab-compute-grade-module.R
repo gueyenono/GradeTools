@@ -8,43 +8,43 @@ tab_compute_grade_module_ui <- function(id){
       
       
       bs4Card(
-        id = ns("box1"), title = "Grade Categories", solidHeader = TRUE, status = "primary", closable = FALSE,
+        id = ns("box1"), title = "Grade Categories", solidHeader = TRUE, status = "primary", closable = FALSE, width = 4,
         grade_categories_module_ui(id = ns("grade-categories"))
       ),
       
-      shinyjs::hidden(div(id = ns("box2"),
-                          bs4Card(
-                            title = "Counts and Weights", solidHeader = TRUE, status = "primary", closable = FALSE,
-                            counts_and_weights_module_ui(id = ns("counts-and-weights"))
-                          ))
+      shinyjs::hidden(
+        bs4Card(
+          id = ns("box2"), title = "Counts and Weights", solidHeader = TRUE, status = "primary", closable = FALSE, width = 4,
+          counts_and_weights_module_ui(id = ns("counts-and-weights"))
+        )
       ),
       
-      shinyjs::hidden(div(id = ns("box3"),
-                          bs4Card(
-                            title = "Scores", solidHeader = TRUE, status = "primary", closable = FALSE,
-                            scores_module_ui(id = ns("scores"))
-                          )
-      ))
+      shinyjs::hidden(
+        bs4Card(
+          id = ns("box3"), title = "Scores", solidHeader = TRUE, status = "primary", closable = FALSE, width = 4,
+          scores_module_ui(id = ns("scores"))
+        )
+      )
     ),
     
     fluidRow(
       
-      shinyjs::hidden(div(id = ns("box4"),
-                          bs4Card(
-                            title = "Evolution of Scores", width = 4,
-                            scores_evolution_module_ui(id = ns("scores-evolution"))
-                          ),
-                          
-                          bs4Card(
-                            title = "Performance by Assessment Type", width = 4,
-                            performance_by_grade_category_valuebox_module_ui(id = ns("performance-by-assessment"))
-                          ),
-                          
-                          bs4Card(
-                            title = "Overall Performance", width = 4,
-                            total_grade_module_ui(id = ns("total-grade"))
-                          )
-      ))
+      shinyjs::hidden(
+        bs4Card(
+          id = ns("box4"), title = "Evolution of Scores", width = 4,
+          scores_evolution_module_ui(id = ns("scores-evolution"))
+        ),
+        
+        bs4Card(
+          id = ns("box5"), title = "Performance by Assessment Type", width = 4,
+          performance_by_grade_category_valuebox_module_ui(id = ns("performance-by-assessment"))
+        ),
+        
+        bs4Card(
+          id = ns("box6"), title = "Overall Performance", width = 4,
+          total_grade_module_ui(id = ns("total-grade"))
+        )
+      )
     )
   )
 }
@@ -60,13 +60,13 @@ tab_compute_grade_module <- function(input, output, session){
   observeEvent(grade_categories$click(), {
     
     if(!grade_categories$missing_input()){
-      shinyjs::show(id = "box2", anim = TRUE, animType = "fade")
-      shinyjs::hide(id = "box3", anim = TRUE, animType = "fade")
-      shinyjs::hide(id = "box4", anim = TRUE, animType = "fade")
+      shinyjs::show(id = session$ns("box2"), anim = TRUE, animType = "fade")
+      shinyjs::hide(id = session$ns("box3"), anim = TRUE, animType = "fade")
+      shinyjs::hide(id = session$ns("box4"), anim = TRUE, animType = "fade")
     } else {
-      shinyjs::hide(id = "box2", anim = TRUE, animType = "fade")
-      shinyjs::hide(id = "box3", anim = TRUE, animType = "fade")
-      shinyjs::hide(id = "box4", anim = TRUE, animType = "fade")
+      shinyjs::hide(id = session$ns("box2"), anim = TRUE, animType = "fade")
+      shinyjs::hide(id = session$ns("box3"), anim = TRUE, animType = "fade")
+      shinyjs::hide(id = session$ns("box4"), anim = TRUE, animType = "fade")
     }
   })
   

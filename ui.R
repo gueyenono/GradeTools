@@ -99,6 +99,19 @@ body <- bs4DashBody(
   
   useShinyalert(),
   
+  tags$head(
+    tags$script(
+      "$(function(){
+        var cards = $('.card');
+        cards.each(function(e){
+         $(cards[e]).attr('id', e);
+        });
+        console.log(cards)
+      });
+      "
+    )
+  ),  
+  
   bs4TabItems(
     bs4TabItem(tabName = "compute_grade", tab_compute_grade_module_ui(id = "tab-compute-grade")),
     bs4TabItem(tabName = "whatcha_need", tab_whatcha_need_module_ui(id = "tab-whatcha-need"))
