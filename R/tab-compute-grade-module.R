@@ -8,20 +8,20 @@ tab_compute_grade_module_ui <- function(id){
       
       
       bs4Card(
-        id = ns("box1"), title = "Grade Categories", width = 4,
+        id = ns("box1"), title = "Grade Categories", solidHeader = TRUE, status = "primary", closable = FALSE,
         grade_categories_module_ui(id = ns("grade-categories"))
       ),
       
       shinyjs::hidden(div(id = ns("box2"),
                           bs4Card(
-                            title = "Counts and Weights", width = 4,
+                            title = "Counts and Weights", solidHeader = TRUE, status = "primary", closable = FALSE,
                             counts_and_weights_module_ui(id = ns("counts-and-weights"))
                           ))
       ),
       
       shinyjs::hidden(div(id = ns("box3"),
                           bs4Card(
-                            title = "Scores", width = 4,
+                            title = "Scores", solidHeader = TRUE, status = "primary", closable = FALSE,
                             scores_module_ui(id = ns("scores"))
                           )
       ))
