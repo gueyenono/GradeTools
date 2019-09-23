@@ -6,27 +6,22 @@ tab_compute_grade_module_ui <- function(id){
     
     fluidRow(
       
-      # box(
-      #   div(style="width: 50%; margin: 0 auto;",
-      #       selectInput(inputId = "aaa", label = "aaa", choices = letters)
-      #   )
-      # ),
       
-      box(
-        id = ns("box1"), title = "Grade Categories", solidHeader = TRUE, status = "primary", width = 4,
+      bs4Card(
+        id = ns("box1"), title = "Grade Categories", width = 4,
         grade_categories_module_ui(id = ns("grade-categories"))
       ),
       
       shinyjs::hidden(div(id = ns("box2"),
-                          box(
-                            title = "Counts and Weights", solidHeader = TRUE, status = "primary", width = 4,
+                          bs4Card(
+                            title = "Counts and Weights", width = 4,
                             counts_and_weights_module_ui(id = ns("counts-and-weights"))
                           ))
       ),
       
       shinyjs::hidden(div(id = ns("box3"),
-                          box(
-                            title = "Scores", solidHeader = TRUE, status = "primary", width = 4,
+                          bs4Card(
+                            title = "Scores", width = 4,
                             scores_module_ui(id = ns("scores"))
                           )
       ))
@@ -35,18 +30,18 @@ tab_compute_grade_module_ui <- function(id){
     fluidRow(
       
       shinyjs::hidden(div(id = ns("box4"),
-                          box(
-                            title = "Evolution of Scores", solidHeader = TRUE, status = "primary", width = 4,
+                          bs4Card(
+                            title = "Evolution of Scores", width = 4,
                             scores_evolution_module_ui(id = ns("scores-evolution"))
                           ),
                           
-                          box(
-                            title = "Performance by Assessment Type", solidHeader = TRUE, status = "primary", width = 4,
+                          bs4Card(
+                            title = "Performance by Assessment Type", width = 4,
                             performance_by_grade_category_valuebox_module_ui(id = ns("performance-by-assessment"))
                           ),
                           
-                          box(
-                            title = "Overall Performance", solidHeader = TRUE, status = "primary", width = 4,
+                          bs4Card(
+                            title = "Overall Performance", width = 4,
                             total_grade_module_ui(id = ns("total-grade"))
                           )
       ))

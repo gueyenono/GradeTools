@@ -1,3 +1,4 @@
+library(bs4Dash)
 library(shiny)
 library(shinydashboard)
 library(shinyjs)
@@ -23,62 +24,158 @@ source("R/display-current-grade-module.R")
 source("R/compute-target-score-module.R")
 source("R/display-target-score-module.R")
 
-
-shinyUI(dashboardPage(
+navbar <- bs4DashNavbar(
   
-  dashboardHeader(
-    
-    title = "gradetools",
-    
-    tags$li(
-      class = "dropdown",
-      a(href = "https://github.com/gueyenono/gradetools",
-        icon("github"),
-        title = "Github")
-    ),
-    
-    tags$li(
-      class = "dropdown",
-      a(href = "https://twitter.com/GueyeNono",
-        icon("twitter"),
-        title = "Twitter")
-    ),
-    
-    tags$li(
-      class = "dropdown",
-      a(href = "mailto:nonoghislain@gmail.com",
-        icon("envelope"),
-        title = "Gmail")
-    )
-    
+  skin = "light", 
+  status = "white",
+  border = TRUE,
+  sidebarIcon = "bars",
+  controlbarIcon = "th",
+  fixed = FALSE,
+  
+  tags$li(
+    class = "dropdown",
+    a(href = "https://github.com/gueyenono/gradetools",
+      icon("github"),
+      title = "Github")
   ),
   
-  dashboardSidebar(
+  tags$li(
+    class = "dropdown",
+    a(href = "https://twitter.com/GueyeNono",
+      icon("twitter"),
+      title = "Twitter")
+  ),
+  
+  tags$li(
+    class = "dropdown",
+    a(href = "mailto:nonoghislain@gmail.com",
+      icon("envelope"),
+      title = "Gmail")
+  )
+)
+
+
+
+sidebar <- bs4DashSidebar(
+  
+  useShinyjs(),
+  
+  skin = "dark",
+  status = "primary",
+  title = "gradetools",
+  brandColor = "primary",
+  elevation = 3,
+  opacity = 0.8,
+  
+  bs4SidebarMenu(
     
-    useShinyjs(),
-    
-    sidebarMenu(
-      
-      id = "sidebar",
-      tags$head(tags$style(".inactiveLink {
+    id = "sidebar",
+    tags$head(tags$style(".inactiveLink {
                             pointer-events: none;
                            cursor: default;
                            }")),
+    
+    bs4SidebarMenuItem(
       
-      menuItem(text = "Compute Grade", tabName = "compute_grade", icon = icon("user-graduate")),
-      menuItem(text = "Whatcha need?", tabName = "whatcha_need", icon = icon("calculator"))
-    )
-  ),
-  
-  dashboardBody(
+      text = "Compute your grade",
+      tabName = "compute_grade",
+      icon = "user-graduate"
+      
+    ),
     
-    useShinyalert(),
-    
-    tabItems(
-      tabItem(tabName = "compute_grade", tab_compute_grade_module_ui(id = "tab-compute-grade")),
-      tabItem(tabName = "whatcha_need", tab_whatcha_need_module_ui(id = "tab-whatcha-need"))
+    bs4SidebarMenuItem(
+      
+      text = "Whatcha need?",
+      tabName = "whatcha_need",
+      icon = "calculator"
+      
     )
   )
-))
+)
+
+
+body <- bs4DashBody(
+  
+  useShinyalert(),
+  
+  bs4TabItems(
+    bs4TabItem(tabName = "compute_grade", tab_compute_grade_module_ui(id = "tab-compute-grade")),
+    bs4TabItem(tabName = "whatcha_need", tab_whatcha_need_module_ui(id = "tab-whatcha-need"))
+  )
+)
+
+
+shinyUI(
+  bs4DashPage(
+    old_school = FALSE,
+    sidebar_collapsed = FALSE,
+    controlbar_collapsed = TRUE,
+    title = "gradetools v.2.0",
+    navbar = navbar,
+    sidebar = sidebar,
+    controlbar = NULL,
+    footer = bs4DashFooter(),
+    body = body
+  )
+)
+
+
+# shinyUI(dashboardPage(
+#   
+#   dashboardHeader(
+#     
+#     title = "gradetools",
+#     
+#     tags$li(
+#       class = "dropdown",
+#       a(href = "https://github.com/gueyenono/gradetools",
+#         icon("github"),
+#         title = "Github")
+#     ),
+#     
+#     tags$li(
+#       class = "dropdown",
+#       a(href = "https://twitter.com/GueyeNono",
+#         icon("twitter"),
+#         title = "Twitter")
+#     ),
+#     
+#     tags$li(
+#       class = "dropdown",
+#       a(href = "mailto:nonoghislain@gmail.com",
+#         icon("envelope"),
+#         title = "Gmail")
+#     )
+#     
+#   ),
+#   
+#   dashboardSidebar(
+#     
+#     useShinyjs(),
+#     
+#     sidebarMenu(
+#       
+#       id = "sidebar",
+#       tags$head(tags$style(".inactiveLink {
+#                             pointer-events: none;
+#                            cursor: default;
+#                            }")),
+#       
+#       menuItem(text = "Compute Grade", tabName = "compute_grade", icon = icon("user-graduate")),
+#       menuItem(text = "Whatcha need?", tabName = "whatcha_need", icon = icon("calculator"))
+#     )
+#   ),
+#   
+#   dashboardBody(
+#     
+#     useShinyalert(),
+#     
+#     tabItems(
+#       tabItem(tabName = "compute_grade", tab_compute_grade_module_ui(id = "tab-compute-grade")),
+#       tabItem(tabName = "whatcha_need", tab_whatcha_need_module_ui(id = "tab-whatcha-need"))
+#     )
+#   )
+# ))
 
 

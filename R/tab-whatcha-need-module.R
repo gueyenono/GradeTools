@@ -6,23 +6,23 @@ tab_whatcha_need_module_ui <- function(id){
     
     fluidRow(
       
-      box(
-        title = "Current Total Grade", solidHeader = TRUE, status = "primary", width = 4,
+      bs4Box(
+        title = "Current Total Grade", width = 4,
           div(
             # style="width: 50%; margin: 0 auto;",
             display_current_grade_module_ui(id = ns("display-current-grade-module"))
           )
       ),
       
-      box(
-        title = "Set Your Target", solidHeader = TRUE, status = "primary", width = 4,
+      bs4Box(
+        title = "Set Your Target", width = 4,
         compute_target_score_module_ui(id = ns("set-targets-module"))
       ),
       
       shinyjs::hidden(
         div(id = ns("target-score-box"),
-            box(
-              title = "Whatcha Need", solidHeader = TRUE, status = "primary", width = 4,
+            bs4Box(
+              title = "Whatcha Need", width = 4,
               display_target_score_module_ui(id = ns("target-grade-module"))
             ))
       )
