@@ -27,6 +27,9 @@ grade_categories_module <- function(input, output, session){
   
   observeEvent(input$submit, {
     
+    req(grade_categories())
+    req(missing_input())
+    
     if(missing_input()){
       
       shinyalert(

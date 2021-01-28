@@ -7,20 +7,30 @@ tab_compute_grade_module_ui <- function(id){
     fluidRow(
       
       
-      bs4Card(
-        id = ns("box1"), title = "Grade Categories", solidHeader = TRUE, status = "primary", closable = FALSE, width = 4,
+      bs4Dash::box(
+        id = ns("box1"), 
+        title = "Grade Categories", 
+        solidHeader = TRUE, 
+        status = "primary",
+        closable = FALSE,
+        width = 4,
         grade_categories_module_ui(id = ns("grade-categories"))
       ),
       
       shinyjs::hidden(
-        bs4Card(
-          id = ns("box2"), title = "Counts and Weights", solidHeader = TRUE, status = "primary", closable = FALSE, width = 4,
+        bs4Dash::box(
+          id = ns("box2"),
+          title = "Counts and Weights",
+          solidHeader = TRUE,
+          status = "primary", 
+          closable = FALSE, 
+          width = 4,
           counts_and_weights_module_ui(id = ns("counts-and-weights"))
         )
       ),
       
       shinyjs::hidden(
-        bs4Card(
+        bs4Dash::box(
           id = ns("box3"), title = "Scores", solidHeader = TRUE, status = "primary", closable = FALSE, width = 4,
           scores_module_ui(id = ns("scores"))
         )
@@ -30,17 +40,17 @@ tab_compute_grade_module_ui <- function(id){
     fluidRow(
       
       shinyjs::hidden(
-        bs4Card(
+        bs4Dash::box(
           id = ns("box4"), title = "Evolution of Scores", width = 4,
           scores_evolution_module_ui(id = ns("scores-evolution"))
         ),
         
-        bs4Card(
+        bs4Dash::box(
           id = ns("box5"), title = "Performance by Assessment Type", width = 4,
           performance_by_grade_category_valuebox_module_ui(id = ns("performance-by-assessment"))
         ),
         
-        bs4Card(
+        bs4Dash::box(
           id = ns("box6"), title = "Overall Performance", width = 4,
           total_grade_module_ui(id = ns("total-grade"))
         )
@@ -51,16 +61,18 @@ tab_compute_grade_module_ui <- function(id){
 
 tab_compute_grade_module <- function(input, output, session){
   
+  # ns <- session$ns
+  
   reactive_output <- reactiveValues()
   
   # User chooses assessment types
   
-  grade_categories <- callModule(module = grade_categories_module, id = "grade-categories")
+  grade_categories <- callModule(module = grade_categories_module, id = session$ns("grade-categories"))
   
   observeEvent(grade_categories$click(), {
     
     if(!grade_categories$missing_input()){
-      shinyjs::show(id = session$ns("box2"), anim = TRUE, animType = "fade")
+      shinyjs::show(id = session$ns("box1"), anim = TRUE, animType = "fade")
       shinyjs::hide(id = session$ns("box3"), anim = TRUE, animType = "fade")
       shinyjs::hide(id = session$ns("box4"), anim = TRUE, animType = "fade")
     } else {

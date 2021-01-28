@@ -6,7 +6,7 @@ tab_whatcha_need_module_ui <- function(id){
     
     fluidRow(
       
-      bs4Box(
+      box(
         title = "Current Total Grade", width = 4,
           div(
             # style="width: 50%; margin: 0 auto;",
@@ -14,14 +14,14 @@ tab_whatcha_need_module_ui <- function(id){
           )
       ),
       
-      bs4Box(
+      box(
         title = "Set Your Target", width = 4,
         compute_target_score_module_ui(id = ns("set-targets-module"))
       ),
       
       shinyjs::hidden(
         div(id = ns("target-score-box"),
-            bs4Box(
+            box(
               title = "Whatcha Need", width = 4,
               display_target_score_module_ui(id = ns("target-grade-module"))
             ))
