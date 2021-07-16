@@ -71,6 +71,8 @@ tab_compute_grade_module <- function(input, output, session){
   
   observeEvent(grade_categories$click(), {
     
+    print("Ah")
+    
     if(!grade_categories$missing_input()){
       shinyjs::show(id = session$ns("box1"), anim = TRUE, animType = "fade")
       shinyjs::hide(id = session$ns("box3"), anim = TRUE, animType = "fade")

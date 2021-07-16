@@ -20,18 +20,15 @@ grade_categories_module <- function(input, output, session){
   grade_categories <- eventReactive(input$submit, {
     input$grade_categories
   })
-  
+
   missing_input <- eventReactive(input$submit, {
     length(grade_categories()) == 0
   })
   
   observeEvent(input$submit, {
-    
-    req(grade_categories())
-    req(missing_input())
-    
+  
     if(missing_input()){
-      
+
       shinyalert(
         title = "Warning!",
         text = "You need to choose at least one assessment type.",
@@ -41,10 +38,10 @@ grade_categories_module <- function(input, output, session){
         showConfirmButton = TRUE,
         animation = "slide-from-top"
       )
-      
+
       shinyjs::enable(id = "submit")
-      
-    } 
+
+    }
   })
   
   return(list(
